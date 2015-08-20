@@ -1,0 +1,10 @@
+{
+  "name": "GDIW",
+  "version": "1.0.0",
+  "title": "GDIW",
+  "author": "DaCyclops",
+  "homepage": "",
+  "contact": "dacyclops@dacyclops.com",
+  "description": "GodDamnItWater! A Factorio mod for those people who keep getting annoyed at water....",
+  "dependencies": ["base >= 0.12.0"]
+}
