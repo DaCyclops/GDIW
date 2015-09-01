@@ -5,6 +5,6 @@
   "author": "DaCyclops",
   "homepage": "",
   "contact": "dacyclops@dacyclops.com",
-  "description": "GodDamnItWater! A Factorio mod for those people who keep getting annoyed at water....",
+  "description": "Gah!DarnItWater! A Factorio mod for those people who keep getting annoyed at water....",
   "dependencies": ["base >= 0.12.0"]
 }
