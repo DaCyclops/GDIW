@@ -1,5 +1,9 @@
 local mod_version="1.0.0"
 
+local function onInit()
+   onLoad()   
+end    
+
 local function onLoad()
   if global.GDIW==nil or global.GDIW.version ~= mod_version then
     --unlock if needed
@@ -31,7 +35,7 @@ local function onSave()
 end
 
 
-game.on_init(onLoad)
-game.on_load(onLoad)
+script.on_init(onInit)
+script.on_load(onLoad)
 
-game.on_save(onSave)
+--game.on_save(onSave)
