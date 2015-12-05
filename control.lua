@@ -12,8 +12,13 @@ script.on_configuration_changed( function(data)
       local techs=force.technologies
       local recipes=force.recipes
 
+      if techs["oil-processing"].researched then
+        recipes["basic-oil-processing-GDIW-3"].enabled=true
+      end
       if techs["advanced-oil-processing"].researched then
         recipes["advanced-oil-processing-GDIW"].enabled=true
+        recipes["advanced-oil-processing-GDIW-2"].enabled=true
+        recipes["advanced-oil-processing-GDIW-3"].enabled=true
         recipes["heavy-oil-cracking-GDIW"].enabled=true
         recipes["light-oil-cracking-GDIW"].enabled=true
       end
@@ -37,8 +42,13 @@ script.on_configuration_changed( function(data)
       local techs=force.technologies
       local recipes=force.recipes
 
+      if techs["oil-processing"].researched then
+        recipes["basic-oil-processing-GDIW-3"].enabled=true
+      end
       if techs["advanced-oil-processing"].researched then
         recipes["advanced-oil-processing-GDIW"].enabled=true
+        recipes["advanced-oil-processing-GDIW-2"].enabled=true
+        recipes["advanced-oil-processing-GDIW-3"].enabled=true
         recipes["heavy-oil-cracking-GDIW"].enabled=true
         recipes["light-oil-cracking-GDIW"].enabled=true
       end

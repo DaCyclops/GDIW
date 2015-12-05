@@ -2,6 +2,27 @@ data:extend(
 {
   {
     type = "recipe",
+    name = "basic-oil-processing-GDIW-3",
+    category = "oil-processing",
+    enabled = false,
+    energy_required = 5,
+    ingredients =
+    {
+      {type="fluid", name="crude-oil", amount=10}
+    },
+    results=
+    {
+      {type="fluid", name="petroleum-gas", amount=4},
+      {type="fluid", name="light-oil", amount=3},
+      {type="fluid", name="heavy-oil", amount=3}
+    },
+    icon = "__GDIW__/graphics/basic-oil-processing-GDIW-3.png",
+    subgroup = "fluid-recipes",
+    order = "a[oil-processing]-a[basic-oil-processing-GDIW-3]"
+  },
+
+  {
+    type = "recipe",
     name = "advanced-oil-processing-GDIW",
     category = "oil-processing",
     enabled = false,
@@ -22,6 +43,50 @@ data:extend(
     order = "a[oil-processing]-c[advanced-oil-processing-GDIW]"
   },
 
+  {
+    type = "recipe",
+    name = "advanced-oil-processing-GDIW-2",
+    category = "oil-processing",
+    enabled = false,
+    energy_required = 5,
+    ingredients =
+    {
+      {type="fluid", name="crude-oil", amount=10},
+      {type="fluid", name="water", amount=5}
+    },
+    results=
+    {
+      {type="fluid", name="petroleum-gas", amount=5.5},
+      {type="fluid", name="light-oil", amount=4.5},
+      {type="fluid", name="heavy-oil", amount=1}
+    },
+    icon = "__GDIW__/graphics/advanced-oil-processing-GDIW-2.png",
+    subgroup = "fluid-recipes",
+    order = "a[oil-processing]-c[advanced-oil-processing-GDIW-2]"
+  },
+
+  {
+    type = "recipe",
+    name = "advanced-oil-processing-GDIW-3",
+    category = "oil-processing",
+    enabled = false,
+    energy_required = 5,
+    ingredients =
+    {
+      {type="fluid", name="water", amount=5},
+      {type="fluid", name="crude-oil", amount=10}
+    },
+    results=
+    {
+      {type="fluid", name="petroleum-gas", amount=5.5},
+      {type="fluid", name="light-oil", amount=4.5},
+      {type="fluid", name="heavy-oil", amount=1}
+    },
+    icon = "__GDIW__/graphics/advanced-oil-processing-GDIW-3.png",
+    subgroup = "fluid-recipes",
+    order = "a[oil-processing]-c[advanced-oil-processing-GDIW-3]"
+  },
+ 
   {
     type = "recipe",
     name = "heavy-oil-cracking-GDIW",
@@ -97,15 +162,10 @@ data:extend(
   }
 })
 
-for km, vm in pairs(data.raw.module) do
-  if vm.name:find("productivity%-module") and vm.limitation then
-    for _, recipe in ipairs({"advanced-oil-processing-GDIW","heavy-oil-cracking-GDIW","light-oil-cracking-GDIW","sulfur-GDIW"}) do
-      table.insert(vm.limitation, recipe)
-    end
-  end
-end
-
+table.insert(data.raw["technology"]["oil-processing"].effects,{type="unlock-recipe",recipe="basic-oil-processing-GDIW-3"})
 table.insert(data.raw["technology"]["advanced-oil-processing"].effects,{type="unlock-recipe",recipe="advanced-oil-processing-GDIW"})
+table.insert(data.raw["technology"]["advanced-oil-processing"].effects,{type="unlock-recipe",recipe="advanced-oil-processing-GDIW-2"})
+table.insert(data.raw["technology"]["advanced-oil-processing"].effects,{type="unlock-recipe",recipe="advanced-oil-processing-GDIW-3"})
 table.insert(data.raw["technology"]["advanced-oil-processing"].effects,{type="unlock-recipe",recipe="heavy-oil-cracking-GDIW"})
 table.insert(data.raw["technology"]["advanced-oil-processing"].effects,{type="unlock-recipe",recipe="light-oil-cracking-GDIW"})
 table.insert(data.raw["technology"]["sulfur-processing"].effects,{type="unlock-recipe",recipe="sulfur-GDIW"})
