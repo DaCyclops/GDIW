@@ -6,5 +6,5 @@
   "homepage": "",
   "contact": "dacyclops@dacyclops.com",
   "description": "Gah!DarnItWater! A Factorio mod for those people who keep getting annoyed at water....",
-  "dependencies": ["base >= 0.12.11"]
+  "dependencies": ["base >= 0.12.11", "? bobplates >= 0.12.0"]
 }
