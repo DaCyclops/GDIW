@@ -21,6 +21,9 @@ script.on_configuration_changed( function(data)
         recipes["advanced-oil-processing-GDIW-3"].enabled=true
         recipes["heavy-oil-cracking-GDIW"].enabled=true
         recipes["light-oil-cracking-GDIW"].enabled=true
+        if recipes["bob-oil-processing-GDIW"] then
+          recipes["bob-oil-processing-GDIW"].enabled=true
+        end
       end
       if techs["sulfur-processing"].researched then
         recipes["sulfur-GDIW"].enabled=true
@@ -51,6 +54,9 @@ script.on_configuration_changed( function(data)
         recipes["advanced-oil-processing-GDIW-3"].enabled=true
         recipes["heavy-oil-cracking-GDIW"].enabled=true
         recipes["light-oil-cracking-GDIW"].enabled=true
+        if recipes["bob-oil-processing-GDIW"] then
+          recipes["bob-oil-processing-GDIW"].enabled=true
+        end
       end
       if techs["sulfur-processing"].researched then
         recipes["sulfur-GDIW"].enabled=true

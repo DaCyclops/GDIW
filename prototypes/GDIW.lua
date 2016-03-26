@@ -170,3 +170,31 @@ table.insert(data.raw["technology"]["advanced-oil-processing"].effects,{type="un
 table.insert(data.raw["technology"]["advanced-oil-processing"].effects,{type="unlock-recipe",recipe="light-oil-cracking-GDIW"})
 table.insert(data.raw["technology"]["sulfur-processing"].effects,{type="unlock-recipe",recipe="sulfur-GDIW"})
 table.insert(data.raw["technology"]["flame-thrower"].effects,{type="unlock-recipe",recipe="flame-thrower-ammo-GDIW"})
+
+
+if data.raw["recipe"]["bob-oil-processing"] then
+data:extend({
+  {
+    type = "recipe",
+    name = "bob-oil-processing-GDIW",
+    category = "oil-processing",
+    enabled = false,
+    energy_required = 5,
+    ingredients =
+    {
+      {type="fluid", name="crude-oil", amount=10}
+    },
+    results=
+    {
+      {type="fluid", name="petroleum-gas", amount=3},
+      {type="fluid", name="light-oil", amount=2},
+      {type="fluid", name="heavy-oil", amount=5}
+    },
+    icon = "__GDIW__/graphics/basic-oil-processing-GDIW-3.png",
+    subgroup = "fluid-recipes",
+    order = "a[oil-processing]-c[bob-oil-processing-2]"
+  },
+})
+
+table.insert(data.raw["technology"]["advanced-oil-processing"].effects,{type="unlock-recipe",recipe="bob-oil-processing-GDIW"})
+end
