@@ -143,7 +143,9 @@ data:extend(
     results=
     {
       {type="item", name="sulfur", amount=2}
-    }
+    },
+    icon = "__GDIW__/graphics/sulfur-GDIW.png",
+
   },
 
   {
@@ -158,9 +160,18 @@ data:extend(
       {type="fluid", name="heavy-oil", amount=2.5},
       {type="fluid", name="light-oil", amount=2.5}
     },
-    result = "flame-thrower-ammo"
+    result = "flame-thrower-ammo",
+    icon = "__GDIW__/graphics/flame-thrower-ammo-GDIW.png",
+
   }
 })
+
+data.raw["recipe"]["basic-oil-processing"].icon = "__GDIW__/graphics/basic-oil-processing.png"
+data.raw["recipe"]["advanced-oil-processing"].icon = "__GDIW__/graphics/advanced-oil-processing.png"
+data.raw["recipe"]["heavy-oil-cracking"].icon = "__GDIW__/graphics/heavy-oil-cracking.png"
+data.raw["recipe"]["light-oil-cracking"].icon = "__GDIW__/graphics/light-oil-cracking.png"
+data.raw["recipe"]["sulfur"].icon = "__GDIW__/graphics/sulfur.png"
+data.raw["recipe"]["flame-thrower-ammo"].icon = "__GDIW__/graphics/flame-thrower-ammo.png"
 
 table.insert(data.raw["technology"]["oil-processing"].effects,{type="unlock-recipe",recipe="basic-oil-processing-GDIW-3"})
 table.insert(data.raw["technology"]["advanced-oil-processing"].effects,{type="unlock-recipe",recipe="advanced-oil-processing-GDIW"})
