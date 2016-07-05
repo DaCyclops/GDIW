@@ -1,11 +1,11 @@
 {
   "name": "GDIW",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "title": "GDIW",
   "author": "DaCyclops",
   "homepage": "",
   "contact": "dacyclops@dacyclops.com",
-  "description": "Gah!DarnItWater! A Factorio mod for those people who keep getting annoyed at water....",
+  "description": "Allows switching liquid recipie inputs and outputs.",
   "factorio_version":"0.13",
-  "dependencies": ["base >= 0.13.0", "? bobplates >= 0.12.0"]
+  "dependencies": ["base >= 0.13.0", "? bobplates >= 0.13.0"]
 }
