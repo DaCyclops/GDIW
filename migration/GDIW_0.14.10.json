@@ -1,0 +1,14 @@
+{
+  "recipe":
+  [
+    ["basic-oil-processing-GDIW-3", "basic-oil-processing-GDIW-OR"],
+    ["advanced-oil-processing-GDIW", "advanced-oil-processing-GDIW-IR"],
+    ["advanced-oil-processing-GDIW-2", "advanced-oil-processing-GDIW-BR"],
+    ["advanced-oil-processing-GDIW-3", "advanced-oil-processing-GDIW-OR"],
+    ["heavy-oil-cracking-GDIW", "heavy-oil-cracking-GDIW-IR"],
+    ["light-oil-cracking-GDIW", "light-oil-cracking-GDIW-IR"],
+    ["sulfur-GDIW", "sulfur-GDIW-IR"],
+    ["flame-thrower-ammo-GDIW", "flame-thrower-ammo-GDIW-IR"],
+    ["bob-oil-processing-GDIW", "bob-oil-processing-GDIW-OR"]
+  ]
+}
