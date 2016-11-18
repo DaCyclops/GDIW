@@ -27,7 +27,7 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     vrn = data.raw.recipe[newName]
     -- fix names (and make enabled for testing)  
     vrn.name = newName
-    localised_name = {"recipe-name." .. vro.name," ","GDIW." .. suffix}
+    vrn.localised_name = {"recipe-name." .. vro.name,{"gdiw-tags." .. suffix}}
     --vrn.enabled = true
     
     ingbuild = {}
