@@ -27,8 +27,27 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     vrn = data.raw.recipe[newName]
     -- fix names (and make enabled for testing)  
     vrn.name = newName
-    vrn.localised_name = {"recipe-name." .. vro.name,{"gdiw-tags." .. suffix}}
     --vrn.enabled = true
+    
+    -- Result Count (for naming)
+    rc = 0
+    if vrn.results then
+      for _, rcv in pairs(vrn.results) do
+        rc = rc + 1
+      end
+    end
+    
+    -- calculate localised name
+    if vro.localised_name then
+    vrn.localised_name = util.table.deepcopy(vro.localised_name)
+    elseif rc > 1 then
+    vrn.localised_name = {"recipe-name." .. vro.name}
+    else
+   
+    end
+    
+    --table.insert(vrn.localised_name,{"gdiw-tags." .. suffix})  
+    
     
     ingbuild = {}
     newing = {}
@@ -67,6 +86,8 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
       oldicon = vro.icon
     elseif vro.icons then
       newicons = util.table.deepcopy(vro.icons)
+    elseif #vrn.results == 1 then
+      table.insert(newicons,{icon=data.raw.item[vrn.results[0].name].icon}) 
     else
       table.insert(newicons,{icon="__GDIW__/graphics/placeholder.png"})  
     end
