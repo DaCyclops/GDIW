@@ -86,8 +86,12 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
       oldicon = vro.icon
     elseif vro.icons then
       newicons = util.table.deepcopy(vro.icons)
-    elseif #vrn.results == 1 then
-      table.insert(newicons,{icon=data.raw.item[vrn.results[0].name].icon}) 
+    elseif vrn.results then
+      if vrn.results[1].type == "item" then
+        table.insert(newicons,{icon=data.raw.item[vrn.results[1].name].icon}) 
+      elseif vrn.results[1].type == "fluid" then
+        table.insert(newicons,{icon=data.raw.fluid[vrn.results[1].name].icon}) 
+      end
     else
       table.insert(newicons,{icon="__GDIW__/graphics/placeholder.png"})  
     end
