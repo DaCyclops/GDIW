@@ -53,7 +53,7 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     newing = {}
     fluidflip = {}
     
-    if isIn then
+  if isIn then
     sortcount = 0
     for _, vri in pairs(vrn.ingredients) do
       --Flip Input fluids
@@ -64,9 +64,13 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
       end
     end  
     table.sort(vrn.ingredients, function(a,b) return a.sortorder<b.sortorder end)
-    end
+    for _, vri in pairs(vrn.ingredients) do
+      --clear sortorder
+      vri.sortorder = nil
+    end  
+  end
     
-    if isOut then
+  if isOut then
     sortcount = 0
     for _, vrr in pairs(vrn.results) do
       --Flip Output fluids
@@ -77,7 +81,11 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
       end
     end  
     table.sort(vrn.results, function(a,b) return a.sortorder<b.sortorder end)
+    for _, vrr in pairs(vrn.results) do
+      --clear sortorder
+      vrr.sortorder = nil
     end
+  end
   
     newicons = {}
     --grab old icon(s)
@@ -88,10 +96,20 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
       newicons = util.table.deepcopy(vro.icons)
     elseif vrn.results then
       if vrn.results[1].type == "item" then
-        table.insert(newicons,{icon=data.raw.item[vrn.results[1].name].icon}) 
+        table.insert(newicons,{icon=data.raw.item[vrn.results[1].name].icon})
       elseif vrn.results[1].type == "fluid" then
         table.insert(newicons,{icon=data.raw.fluid[vrn.results[1].name].icon}) 
       end
+--    elseif vrn.result then  -- attempted result-icon-handling. causes errors, needs rework
+--      if data.raw.item[vrn.result] then
+--          if data.raw.item[vrn.result].icon then
+--            newicons = util.table.deepcopy(data.raw.item[vrn.result].icons)
+--          elseif data.raw.item[vrn.result].icon then
+--            table.insert(newicons,{icon=data.raw.item[vrn.result].icon})
+--          else
+--            table.insert(newicons,{icon="__GDIW__/graphics/placeholder.png"})            
+--          end
+--      end
     else
       table.insert(newicons,{icon="__GDIW__/graphics/placeholder.png"})  
     end
