@@ -91,26 +91,35 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     --grab old icon(s)
     if vro.icon then
       table.insert(newicons,{icon=vro.icon})
-      oldicon = vro.icon
     elseif vro.icons then
       newicons = util.table.deepcopy(vro.icons)
-    elseif vrn.results then
-      if vrn.results[1].type == "item" then
-        table.insert(newicons,{icon=data.raw.item[vrn.results[1].name].icon})
-      elseif vrn.results[1].type == "fluid" then
-        table.insert(newicons,{icon=data.raw.fluid[vrn.results[1].name].icon}) 
-      end
---    elseif vrn.result then  -- attempted result-icon-handling. causes errors, needs rework
---      if data.raw.item[vrn.result] then
---          if data.raw.item[vrn.result].icon then
---            newicons = util.table.deepcopy(data.raw.item[vrn.result].icons)
---          elseif data.raw.item[vrn.result].icon then
---            table.insert(newicons,{icon=data.raw.item[vrn.result].icon})
---          else
---            table.insert(newicons,{icon="__GDIW__/graphics/placeholder.png"})            
---          end
---      end
     else
+      -- Look through results for an icon
+      local resultList = {}
+      if vrn.results then -- Do we have a list of results?
+        resultList = vrn.results -- Use it as-is
+      elseif vrn.result then -- Is there a single result string?
+        -- Check the raw table for an object of the given name and fake a sparse result object
+        if data.raw.item[vrn.result] then
+          table.insert(resultList, {type="item", name=vrn.result})
+        elseif data.raw.fluid[vrn.result] then
+          table.insert(resultList, {type="fluid", name=vrn.result})
+        end
+      end
+      -- Now iterate over the list of results, until we either find an icon or checked all.
+      for _, result in pairs(resultList) do
+        if result.type == "item" or result.type == "fluid" then 
+          local rawResult = data.raw[result.type][result.name]
+          if rawResult.icon then
+            table.insert(newicons,{icon=rawResult.icon})
+          elseif rawResult.icons then
+            newicons = util.table.deepcopy(rawResult.icons)
+          end
+          if #newicons > 0 then break end
+        end
+      end
+    end
+    if #newicons == 0 then
       table.insert(newicons,{icon="__GDIW__/graphics/placeholder.png"})  
     end
     -- add overlay and use
