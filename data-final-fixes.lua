@@ -12,22 +12,35 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     -- Determine new names
     if isIn and isOut then
     suffix = "GDIW-BR"
+    ordersuffix = "-o3"
     elseif isIn then
     suffix = "GDIW-IR"
+    ordersuffix = "-o2"
     elseif isOut then
     suffix = "GDIW-OR"
+    ordersuffix = "-o1"
     else
     suffix = "GDIW-AR"
+    ordersuffix = "-o4"
     end
     newName = vin.r .. "-" .. suffix
     -- copy table
     data.raw.recipe[newName] = util.table.deepcopy(data.raw.recipe[vin.r])
+    
+    --Logging Code (Dev Only)
+    --log("-## Creating "..newName)
     
     vro = data.raw.recipe[vin.r]
     vrn = data.raw.recipe[newName]
     -- fix names (and make enabled for testing)  
     vrn.name = newName
     --vrn.enabled = true
+    -- Resort by Normal, Output, Input, Both
+    if vro.order then
+      vrn.order = vro.order .. ordersuffix
+      else
+      vrn.order = newName .. ordersuffix
+    end
     
     -- Result Count (for naming)
     rc = 0
