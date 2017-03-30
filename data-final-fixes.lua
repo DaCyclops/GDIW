@@ -5,11 +5,13 @@ GDIWworklistOut = {}
 GDIWworklistBoth = {}
 GDIWproductivity = {}
 GDIWresearch = {}
+GDIWlist = {lout = {}, lin = {}, lboth = {}}
+
 
 -- function for doing prototypes
 function GDIWdoprototype(GDIWwl, isIn, isOut )
   for _, vin in pairs(GDIWwl) do
-    -- Determine new names
+    -- Determine new names, suffixes
     if isIn and isOut then
     suffix = "GDIW-BR"
     ordersuffix = "-o3"
@@ -153,11 +155,20 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
       table.insert(GDIWproductivity,newName)
     end
   
-  if not GDIWresearch[vin.r] then
-    GDIWresearch[vin.r] = {}
-  end
+    if not GDIWresearch[vin.r] then
+      GDIWresearch[vin.r] = {}
+    end
   
   table.insert(GDIWresearch[vin.r], newName)
+
+    if isIn and isOut then
+      table.insert(GDIWlist.lboth, {name=newName, orig=vin.r})
+      elseif isIn then
+      table.insert(GDIWlist.lin, {name=newName, orig=vin.r})
+      elseif isOut then
+      table.insert(GDIWlist.lout, {name=newName, orig=vin.r})
+    end
+
   
   end
 
@@ -254,4 +265,12 @@ for km, vm in pairs(data.raw.module) do
   end
 end
 
+-- Output list data to Control.lua (thanks data-raw-prototypes)
+data:extend({{
+	type = "flying-text",
+	name = "gdiw_data_list_flying-text",
+	time_to_live = 0,
+	speed = 1,
+	order = serpent.dump(GDIWlist)
+}})
 
