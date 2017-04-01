@@ -203,7 +203,7 @@ for kr, vr in pairs(data.raw.recipe) do
   if GDIWfincount > 1 or GDIWfoutcount > 1 then
     --determine if they have productivity support anywhere
     for _, vm in pairs(data.raw.module) do
-      if vm.name:find("productivity%-module") and vm.limitation and vm.limitation[kr] then
+      if vm.effect.productivity and vm.limitation and vm.limitation[kr] then
           --And mark them as having it
           thisProduc = true
       end
@@ -253,17 +253,23 @@ for _, rv in pairs(data.raw["technology"]) do
   end
 end
 
-
-
-
+-- Old Productivity Limitation Code
+-- for km, vm in pairs(data.raw.module) do
+  -- if vm.name:find("productivity%-module") and vm.limitation then
+    -- for _, recipe in ipairs(GDIWproductivity) do
+      -- table.insert(vm.limitation, recipe)
+    -- end
+  -- end
+-- end
 
 for km, vm in pairs(data.raw.module) do
-  if vm.name:find("productivity%-module") and vm.limitation then
+  if vm.effect.productivity and vm.limitation then
     for _, recipe in ipairs(GDIWproductivity) do
       table.insert(vm.limitation, recipe)
     end
   end
 end
+
 
 -- Output list data to Control.lua (thanks data-raw-prototypes)
 data:extend({{
