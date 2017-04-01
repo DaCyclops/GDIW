@@ -1,3 +1,5 @@
+local hideButton = true
+
 function recheck_all_recipes(rf) 
 
       for _, research in pairs(rf.technologies) do
@@ -24,7 +26,8 @@ end
 
 
 function redraw_button(pli)
-  checkPlayerForce(pli)  
+  checkPlayerForce(pli)
+  if hideButton then return end  
   local pgt = game.players[pli].gui.top
   local fb = global.gdiwforce[game.players[pli].force.name]
   local bs = "NR"
@@ -46,6 +49,7 @@ end
 
 function createMainButton(pli)
   checkPlayerForce(pli) 
+  if hideButton then return end  
   local pgt = game.players[pli].gui.top
   if not pgt.gdiw then 
     pgt.add{type = "flow", name = "gdiw", direction = "vertical"} 
