@@ -1,4 +1,5 @@
-require("prototypes.style")
+-- No Button Styles yet...
+--require("prototypes.style")
 
 -- Fix for vanilla recipies that dont provide an icon....
 data.raw.recipe["sulfur"].icon = data.raw.item["sulfur"].icon
