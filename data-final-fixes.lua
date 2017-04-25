@@ -203,9 +203,10 @@ for kr, vr in pairs(data.raw.recipe) do
   if GDIWfincount > 1 or GDIWfoutcount > 1 then
     --determine if they have productivity support anywhere
     for _, vm in pairs(data.raw.module) do
-      if vm.effect.productivity and vm.limitation and vm.limitation[kr] then
-          --And mark them as having it
-          thisProduc = true
+      if vm.effect.productivity and vm.limitation then
+        for _, prr in pairs(vm.limitation) do
+          if prr == kr then thisProduc = true end--And mark them as having it
+        end
       end
     end
   end
@@ -273,11 +274,12 @@ end
 
 -- Output list data to Control.lua (thanks data-raw-prototypes)
 --log("GDIWlist Length: "..string.len(serpent.dump(GDIWlist)))
-data:extend({{
-	type = "flying-text",
-	name = "gdiw_data_list_flying-text",
-	time_to_live = 0,
-	speed = 1,
-	resource_category = serpent.dump(GDIWlist)
-}})
+--log(serpent.dump(GDIWlist))
+--data:extend({{
+--	type = "flying-text",
+--	name = "gdiw_data_list_flying-text",
+--	time_to_live = 0,
+--	speed = 1,
+--	resource_category = serpent.dump(GDIWlist)
+--}})
 

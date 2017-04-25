@@ -28,14 +28,15 @@ end
  -- Start OnLoad/OnInit/OnConfig events
 script.on_configuration_changed( function(data)
   -- Do Any Mod Changes
-     
+  
   -- Setup for global list 
   -- wipe global list if any mod changes, not just GDIW   
   global.gdiwlist = {}
-  if global.gdiwlist ~= nil then
-    gdiwliststring = loadstring(game.entity_prototypes["gdiw_data_list_flying-text"].resource_category)()
-    global.gdiwlist = gdiwliststring
-  end
+  
+  --if global.gdiwlist ~= nil then
+    --gdiwliststring = loadstring(game.entity_prototypes["gdiw_data_list_flying-text"].order)()
+    --global.gdiwlist = gdiwliststring
+  --end
     
    -- Do GDIW Mod added 
   if data.mod_changes ~= nil and data.mod_changes["GDIW"] ~= nil and data.mod_changes["GDIW"].old_version == nil then
