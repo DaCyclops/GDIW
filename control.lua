@@ -1,6 +1,6 @@
 --Button disable flag. True for now, because button CANT do what I want it to...
 local disableButton = true
-if disableButton = false then require("button") end
+if disableButton == false then require("button") end
 
 function recheck_all_recipes(rf) 
 
@@ -33,7 +33,7 @@ script.on_configuration_changed( function(data)
   -- wipe global list if any mod changes, not just GDIW   
   global.gdiwlist = {}
   if global.gdiwlist ~= nil then
-    gdiwliststring = loadstring(game.entity_prototypes["gdiw_data_list_flying-text"].order)()
+    gdiwliststring = loadstring(game.entity_prototypes["gdiw_data_list_flying-text"].resource_category)()
     global.gdiwlist = gdiwliststring
   end
     

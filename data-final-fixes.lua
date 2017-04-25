@@ -272,11 +272,12 @@ end
 
 
 -- Output list data to Control.lua (thanks data-raw-prototypes)
+--log("GDIWlist Length: "..string.len(serpent.dump(GDIWlist)))
 data:extend({{
 	type = "flying-text",
 	name = "gdiw_data_list_flying-text",
 	time_to_live = 0,
 	speed = 1,
-	order = serpent.dump(GDIWlist)
+	resource_category = serpent.dump(GDIWlist)
 }})
 
