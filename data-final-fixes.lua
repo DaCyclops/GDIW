@@ -117,14 +117,16 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
         -- Check the raw table for an object of the given name and fake a sparse result object
         if data.raw.item[vrn.result] then
           table.insert(resultList, {type="item", name=vrn.result})
+        elseif data.raw.ammo[vrn.result] then
+          table.insert(resultList, {type="ammo", name=vrn.result})
         elseif data.raw.fluid[vrn.result] then
           table.insert(resultList, {type="fluid", name=vrn.result})
-        end
+          end
       end
       -- Now iterate over the list of results, until we either find an icon or checked all.
       for _, result in pairs(resultList) do
-        if result.type == "item" or result.type == "fluid" then 
-          local rawResult = data.raw[result.type][result.name]
+        if result.type == "item" or result.type == "fluid" or result.type == "ammo" then 
+          local rawResult = data.raw[result.type][result.name] 
           if rawResult.icon then
             table.insert(newicons,{icon=rawResult.icon})
           elseif rawResult.icons then
@@ -135,7 +137,7 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
       end
     end
     if #newicons == 0 then
-      table.insert(newicons,{icon="__GDIW__/graphics/placeholder.png"})  
+      table.insert(newicons,{icon="__GDIW__/graphics/placeholder.png"})
     end
     -- add overlay and use
     if isIn and isOut then
@@ -149,6 +151,7 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     end
     
     vrn.icons = newicons
+    vrn.icon_size = 32
     
     -- handle productivity modules
     if vin.prod then
