@@ -182,24 +182,69 @@ end --end function
 -- Find what needs to be done
 for kr, vr in pairs(data.raw.recipe) do
   --For each recipie
-  GDIWfincount = 0
+  GDIWfincountD = 0 --"Default, normal, expensive"
+  GDIWfincountN = 0
+  GDIWfincountE = 0
+  GDIWfoutcountD = 0
+  GDIWfoutcountN = 0
+  GDIWfoutcountE = 0
+  
   if vr.ingredients then
     for _, vri in pairs(vr.ingredients) do
       --Search for Inputs with Fluids
       if vri.type == "fluid" then
-        GDIWfincount = GDIWfincount + 1
+        GDIWfincountD = GDIWfincountD + 1
       end
     end
-  end  
-  GDIWfoutcount = 0
+  end
+  
+  if vr.normal.ingredients then
+    for _, vri in pairs(vr.normal.ingredients) do
+      --Search for Inputs with Fluids
+      if vri.type == "fluid" then
+        GDIWfincountN = GDIWfincountN + 1
+      end
+    end
+  end
+  
+  if vr.expensive.ingredients then
+    for _, vri in pairs(vr.expensive.ingredients) do
+      --Search for Inputs with Fluids
+      if vri.type == "fluid" then
+        GDIWfincountE = GDIWfincountE + 1
+      end
+    end
+  end
+  
   if vr.results then
     for _, vri in pairs(vr.results) do
       --Search for Outputs with Fluids
       if vri.type == "fluid" then
-        GDIWfoutcount = GDIWfoutcount + 1
+        GDIWfoutcountD = GDIWfoutcountD + 1
       end
     end
   end
+  
+  if vr.normal.results then
+    for _, vri in pairs(vr.normal.results) do
+      --Search for Outputs with Fluids
+      if vri.type == "fluid" then
+        GDIWfoutcountN = GDIWfoutcountN + 1
+      end
+    end
+  end
+  
+  if vr.expensive.results then
+    for _, vri in pairs(vr.expensive.results) do
+      --Search for Outputs with Fluids
+      if vri.type == "fluid" then
+        GDIWfoutcountE = GDIWfoutcountE + 1
+      end
+    end
+  end
+  
+  local GDIWfincount = math.max(GDIWfincountD, math.max(GDIWfincountN, GDIWfincountE))
+  local GDIWfoutcount = math.max(GDIWfoutcountD, math.max(GDIWfoutcountN, GDIWfoutcountE))
   
   --and if they will be touched by this mod
   thisProduc = false
