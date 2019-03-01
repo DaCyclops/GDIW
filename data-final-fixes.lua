@@ -58,7 +58,7 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     elseif rc > 1 then
     vrn.localised_name = {"recipe-name." .. vro.name}
     else
-   
+    --vrn.localised_name = {"recipe-name." .. vro.name}
     end
     
     --table.insert(vrn.localised_name,{"gdiw-tags." .. suffix})  
@@ -67,6 +67,13 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     ingbuild = {}
     newing = {}
     fluidflip = {}
+
+    local ingredients = {} 
+    for I = 1, #vrn.ingredients do 
+      if vrn.ingredients[I] then 
+        table.insert(ingredients, vrn.ingredients[I])
+      end
+    end
     
   if isIn then
     sortcount = 0
@@ -106,11 +113,11 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
 	
     table.sort(vrn.ingredients, function(a,b) return a.sortorder<b.sortorder end)
     if vrn.normal and vrn.normal.ingredients then
-		table.sort(vrn.normal.ingredients, function(a,b) return a.sortorder<b.sortorder end)
-	end
-	if vrn.expensive and vrn.expensive.ingredients then
-		table.sort(vrn.expensive.ingredients, function(a,b) return a.sortorder<b.sortorder end)
-	end
+		  table.sort(vrn.normal.ingredients, function(a,b) return a.sortorder<b.sortorder end)
+	  end
+	  if vrn.expensive and vrn.expensive.ingredients then
+		  table.sort(vrn.expensive.ingredients, function(a,b) return a.sortorder<b.sortorder end)
+	  end
 	
     for _, vri in pairs(vrn.ingredients) do
       --clear sortorder
@@ -128,6 +135,7 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
 		  vri.sortorder = nil
 		end
 	end
+  
   end
     
   if isOut then
@@ -167,7 +175,7 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
 	
     table.sort(vrn.results, function(a,b) return a.sortorder<b.sortorder end)
     if vrn.normal and vrn.normal.results then
-		table.sort(vrn.normal.results, function(a,b) return a.sortorder<b.sortorder end)
+	  	table.sort(vrn.normal.results, function(a,b) return a.sortorder<b.sortorder end)
 	end
 	if vrn.expensive and vrn.expensive.results then
 		table.sort(vrn.expensive.results, function(a,b) return a.sortorder<b.sortorder end)
@@ -201,20 +209,34 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
       -- Look through results for an icon
       local resultList = {}
       if vrn.results then -- Do we have a list of results?
-        resultList = vrn.results -- Use it as-is
-      elseif vrn.result then -- Is there a single result string?
-        -- Check the raw table for an object of the given name and fake a sparse result object
-        if data.raw.item[vrn.result] then
-          table.insert(resultList, {type="item", name=vrn.result})
-        elseif data.raw.ammo[vrn.result] then
-          table.insert(resultList, {type="ammo", name=vrn.result})
-        elseif data.raw.fluid[vrn.result] then
-          table.insert(resultList, {type="fluid", name=vrn.result})
-          end
+        for _,v in ipairs(vrn.results) do 
+          table.insert(resultList, v)
+        end
       end
+      if vrn.normal and vrn.normal.results then -- Do we have a list of normal results?
+        for _,v in ipairs(vrn.normal.results) do 
+          table.insert(resultList, v)
+        end
+      end
+      if vrn.expensive and vrn.expensive.results then -- Do we have a list of expensive results?
+        for _,v in ipairs(vrn.expensive.results) do 
+          table.insert(resultList, v)
+        end
+      end
+      
+      if vrn.result then -- Is there a single result string?
+        table.insert(resultList, {type=gdiw_get_result_type(vrn.result), name=vrn.result})
+      end
+      if vrn.normal and vrn.normal.result then -- Is there a single normal result string?
+        table.insert(resultList, {type=gdiw_get_result_type(vrn.normal.result), name=vrn.normal.result})
+      end
+      if vrn.expensive and vrn.expensive.result then -- Is there a single expensive result string?
+        table.insert(resultList, {type=gdiw_get_result_type(vrn.expensive.result), name=vrn.expensive.result})
+      end
+      
       -- Now iterate over the list of results, until we either find an icon or checked all.
       for _, result in pairs(resultList) do
-        if result.type == "item" or result.type == "fluid" or result.type == "ammo" then 
+        if data.raw[result.type] and data.raw[result.type][result.name] then
           local rawResult = data.raw[result.type][result.name] 
           if rawResult.icon then
             table.insert(newicons,{icon=rawResult.icon})
@@ -225,6 +247,7 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
         end
       end
     end
+
     if #newicons == 0 then
       table.insert(newicons,{icon="__GDIW__/graphics/placeholder.png"})
     end
@@ -265,6 +288,43 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
   end
 
 end --end function
+
+function gdiw_get_result_type(itemName)
+        -- Check the raw tables for an object of the given name and return the type
+        if data.raw.item[itemName] then -- Are you an Item?
+          return "item"
+        elseif data.raw["ammo"][itemName] then -- Are you an Ammo?
+          return "ammo"
+        elseif data.raw["fluid"][itemName] then -- Are you a Fluid?
+          return "fluid"
+        elseif data.raw["gun"][itemName] then -- Are you a Gun?
+          return "gun"
+        elseif data.raw["tool"][itemName] then -- Are you a tool?
+          return "tool"
+        elseif data.raw["capsule"][itemName] then -- Are you an capsule?
+          return "capsule"
+        elseif data.raw["armor"][itemName] then -- Are you an armor?
+          return "armor"
+        elseif data.raw["repair-tool"][itemName] then -- Are you a repair-tool?
+          return "repair-tool"
+        elseif data.raw["module"][itemName] then -- Are you a module?
+          return "module"
+        elseif data.raw["blueprint"][itemName] then -- Are you an blueprint?
+          return "blueprint"
+        elseif data.raw["item-with-entity-data"][itemName] then -- Are you an item-with-entity-data?
+          return "item-with-entity-data"
+        elseif data.raw["artillery-flare"][itemName] then -- Are you an artillery-flare?
+          return "artillery-flare"
+        elseif data.raw["rail-planner"][itemName] then -- Are you an rail-planner?
+          return "rail-planner"
+        elseif data.raw["wall"][itemName] then -- Are you an wall?
+          return "wall"
+--        elseif data.raw[""][itemName] then -- Are you an ?
+--          return ""
+        else
+          return "item"
+        end
+end
 
 
 
