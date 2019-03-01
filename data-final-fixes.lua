@@ -70,6 +70,7 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     
   if isIn then
     sortcount = 0
+	
     for _, vri in pairs(vrn.ingredients) do
       --Flip Input fluids
       sortcount = sortcount + 1
@@ -77,12 +78,56 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
       if vri.type == "fluid" then
         vri.sortorder = 1000 - sortcount
       end
-    end  
+    end
+	
+	if vrn.normal and vrn.normal.ingredients then 
+		sortcount = 0
+		for _, vri in pairs(vrn.normal.ingredients) do
+		  --Flip Input fluids
+		  sortcount = sortcount + 1
+		  vri.sortorder = sortcount
+		  if vri.type == "fluid" then
+			vri.sortorder = 1000 - sortcount
+		  end
+		end
+	end
+	
+	if vrn.expensive and vrn.expensive.ingredients then 
+		sortcount = 0
+		for _, vri in pairs(vrn.expensive.ingredients) do
+		  --Flip Input fluids
+		  sortcount = sortcount + 1
+		  vri.sortorder = sortcount
+		  if vri.type == "fluid" then
+			vri.sortorder = 1000 - sortcount
+		  end
+		end
+	end
+	
     table.sort(vrn.ingredients, function(a,b) return a.sortorder<b.sortorder end)
+    if vrn.normal and vrn.normal.ingredients then
+		table.sort(vrn.normal.ingredients, function(a,b) return a.sortorder<b.sortorder end)
+	end
+	if vrn.expensive and vrn.expensive.ingredients then
+		table.sort(vrn.expensive.ingredients, function(a,b) return a.sortorder<b.sortorder end)
+	end
+	
     for _, vri in pairs(vrn.ingredients) do
       --clear sortorder
       vri.sortorder = nil
-    end  
+    end
+	if vrn.normal and vrn.normal.ingredients then
+		for _, vri in pairs(vrn.normal.ingredients) do
+		  --clear sortorder
+		  vri.sortorder = nil
+		end
+	end
+	if vrn.expensive and vrn.expensive.ingredients then
+		for _, vri in pairs(vrn.expensive.ingredients) do
+		  --clear sortorder
+		  vri.sortorder = nil
+		end
+	end
   end
     
   if isOut then
@@ -94,12 +139,56 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
       if vrr.type == "fluid" then
         vrr.sortorder = 1000 - sortcount
       end
-    end  
+    end
+	
+	if vrn.normal and vrn.normal.results then 
+		sortcount = 0
+		for _, vri in pairs(vrn.normal.results) do
+		  --Flip Output fluids
+		  sortcount = sortcount + 1
+		  vrr.sortorder = sortcount
+		  if vrr.type == "fluid" then
+			vrr.sortorder = 1000 - sortcount
+		  end
+		end
+	end
+	
+	if vrn.expensive and vrn.expensive.results then 
+		sortcount = 0
+		for _, vri in pairs(vrn.expensive.results) do
+		  --Flip Output fluids
+		  sortcount = sortcount + 1
+		  vrr.sortorder = sortcount
+		  if vrr.type == "fluid" then
+			vrr.sortorder = 1000 - sortcount
+		  end
+		end
+	end
+	
     table.sort(vrn.results, function(a,b) return a.sortorder<b.sortorder end)
+    if vrn.normal and vrn.normal.results then
+		table.sort(vrn.normal.results, function(a,b) return a.sortorder<b.sortorder end)
+	end
+	if vrn.expensive and vrn.expensive.results then
+		table.sort(vrn.expensive.results, function(a,b) return a.sortorder<b.sortorder end)
+	end
+	
     for _, vrr in pairs(vrn.results) do
       --clear sortorder
       vrr.sortorder = nil
     end
+	if vrn.normal and vrn.normal.results then
+		for _, vri in pairs(vrn.normal.results) do
+		  --clear sortorder
+		  vri.sortorder = nil
+		end
+	end
+	if vrn.expensive and vrn.expensive.results then
+		for _, vri in pairs(vrn.expensive.results) do
+		  --clear sortorder
+		  vri.sortorder = nil
+		end
+	end
   end
   
     newicons = {}
@@ -182,24 +271,69 @@ end --end function
 -- Find what needs to be done
 for kr, vr in pairs(data.raw.recipe) do
   --For each recipie
-  GDIWfincount = 0
+  GDIWfincountD = 0 --"Default, normal, expensive"
+  GDIWfincountN = 0
+  GDIWfincountE = 0
+  GDIWfoutcountD = 0
+  GDIWfoutcountN = 0
+  GDIWfoutcountE = 0
+  
   if vr.ingredients then
     for _, vri in pairs(vr.ingredients) do
       --Search for Inputs with Fluids
       if vri.type == "fluid" then
-        GDIWfincount = GDIWfincount + 1
+        GDIWfincountD = GDIWfincountD + 1
       end
     end
-  end  
-  GDIWfoutcount = 0
+  end
+  
+  if vr.normal and vr.normal.ingredients then
+    for _, vri in pairs(vr.normal.ingredients) do
+      --Search for Inputs with Fluids
+      if vri.type == "fluid" then
+        GDIWfincountN = GDIWfincountN + 1
+      end
+    end
+  end
+  
+  if vr.expensive and vr.expensive.ingredients then
+    for _, vri in pairs(vr.expensive.ingredients) do
+      --Search for Inputs with Fluids
+      if vri.type == "fluid" then
+        GDIWfincountE = GDIWfincountE + 1
+      end
+    end
+  end
+  
   if vr.results then
     for _, vri in pairs(vr.results) do
       --Search for Outputs with Fluids
       if vri.type == "fluid" then
-        GDIWfoutcount = GDIWfoutcount + 1
+        GDIWfoutcountD = GDIWfoutcountD + 1
       end
     end
   end
+  
+  if vr.normal and vr.normal.results then
+    for _, vri in pairs(vr.normal.results) do
+      --Search for Outputs with Fluids
+      if vri.type == "fluid" then
+        GDIWfoutcountN = GDIWfoutcountN + 1
+      end
+    end
+  end
+  
+  if vr.expensive and vr.expensive.results then
+    for _, vri in pairs(vr.expensive.results) do
+      --Search for Outputs with Fluids
+      if vri.type == "fluid" then
+        GDIWfoutcountE = GDIWfoutcountE + 1
+      end
+    end
+  end
+  
+  local GDIWfincount = math.max(GDIWfincountD, math.max(GDIWfincountN, GDIWfincountE))
+  local GDIWfoutcount = math.max(GDIWfoutcountD, math.max(GDIWfoutcountN, GDIWfoutcountE))
   
   --and if they will be touched by this mod
   thisProduc = false
@@ -285,4 +419,3 @@ end
 --	speed = 1,
 --	resource_category = serpent.dump(GDIWlist)
 --}})
-
