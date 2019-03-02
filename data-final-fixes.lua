@@ -54,15 +54,38 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     
     -- calculate localised name
     if vro.localised_name then
-    vrn.localised_name = util.table.deepcopy(vro.localised_name)
-    elseif rc > 1 then
-    vrn.localised_name = {"recipe-name." .. vro.name}
+      vrn.localised_name = util.table.deepcopy(vro.localised_name)
     else
-    --vrn.localised_name = {"recipe-name." .. vro.name}
+      vrn.localised_name = {"recipe-name." .. vro.name}
+    end
+    if vro.result then
+      vrn.localised_name = {"item-name." .. vro.result}
+    elseif vro.results then
+      if vro.results[1] then
+        vrn.localised_name = {vro.results[1].type .. "-name." .. vro.results[1].name}
+      else
+        --log("--GDIW-----------")
+        --log("failure on R:" .. vro.name .. " ")
+        --log(serpent.block(vro.results))
+        vrn.localised_name = {"recipe-name." .. vro.name}
+      end
     end
     
-    --table.insert(vrn.localised_name,{"gdiw-tags." .. suffix})  
-    
+    -- Name Overrides, because some things just dont like me.
+    local nameoverrides = {
+    "basic-oil-processing",
+    "advanced-oil-processing",
+    "light-oil-cracking",
+    "heavy-oil-cracking",
+    "coal-liquefaction"
+    }
+    for _, nov in pairs(nameoverrides) do
+      if vro.name == nov then
+        vrn.localised_name = {"recipe-name." .. vro.name}
+      end
+    end
+
+      
     
     ingbuild = {}
     newing = {}
