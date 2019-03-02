@@ -60,6 +60,8 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     end
     if vro.result then
       vrn.localised_name = {"item-name." .. vro.result}
+    elseif vro.main_product then
+      vrn.localised_name = {"item-name." .. vro.result}
     elseif vro.results then
       if vro.results[1] then
         vrn.localised_name = {vro.results[1].type .. "-name." .. vro.results[1].name}
