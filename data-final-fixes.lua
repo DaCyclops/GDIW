@@ -61,7 +61,11 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     if vro.result then
       vrn.localised_name = {"item-name." .. vro.result}
     elseif vro.main_product then
-      vrn.localised_name = {"item-name." .. vro.main_product}
+      if data.raw.fluid[vro.main_product] then
+        vrn.localised_name = {"fluid-name." .. vro.main_product}
+      else
+        vrn.localised_name = {"item-name." .. vro.main_product}
+      end
     elseif vro.results then
       if vro.results[1] then
         vrn.localised_name = {vro.results[1].type .. "-name." .. vro.results[1].name}
