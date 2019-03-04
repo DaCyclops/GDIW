@@ -108,12 +108,14 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     if isIn then
       sortcount = 0
 	
-      for _, vri in pairs(vrn.ingredients) do
-        --Flip Input fluids
-        sortcount = sortcount + 1
-        vri.sortorder = sortcount
-        if vri.type == "fluid" then
-          vri.sortorder = 1000 - sortcount
+	  if vrn.ingredients then
+        for _, vri in pairs(vrn.ingredients) do
+          --Flip Input fluids
+          sortcount = sortcount + 1
+          vri.sortorder = sortcount
+          if vri.type == "fluid" then
+            vri.sortorder = 1000 - sortcount
+          end
         end
       end
 	
@@ -141,7 +143,9 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
 		end
 	  end
 	
-      table.sort(vrn.ingredients, function(a,b) return a.sortorder<b.sortorder end)
+	  if vrn.ingredients then
+        table.sort(vrn.ingredients, function(a,b) return a.sortorder<b.sortorder end)
+      end
       if vrn.normal and vrn.normal.ingredients then
 		table.sort(vrn.normal.ingredients, function(a,b) return a.sortorder<b.sortorder end)
 	  end
@@ -149,10 +153,12 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
 		table.sort(vrn.expensive.ingredients, function(a,b) return a.sortorder<b.sortorder end)
 	  end
 	
-      for _, vri in pairs(vrn.ingredients) do
-        --clear sortorder
-        vri.sortorder = nil
-      end
+	  if vrn.ingredients then
+        for _, vri in pairs(vrn.ingredients) do
+          --clear sortorder
+          vri.sortorder = nil
+        end
+	  end
 	  if vrn.normal and vrn.normal.ingredients then
 		for _, vri in pairs(vrn.normal.ingredients) do
 		  --clear sortorder
