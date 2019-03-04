@@ -97,26 +97,27 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     newing = {}
     fluidflip = {}
 
-    local ingredients = {} 
-    for I = 1, #vrn.ingredients do 
-      if vrn.ingredients[I] then 
-        table.insert(ingredients, vrn.ingredients[I])
-      end
-    end
+    --This dosent seem to do anything and causes crashes if ingredients are nil
+    --local ingredients = {} 
+    --for I = 1, #vrn.ingredients do 
+    --  if vrn.ingredients[I] then 
+    --    table.insert(ingredients, vrn.ingredients[I])
+    --  end
+    --end
     
-  if isIn then
-    sortcount = 0
+    if isIn then
+      sortcount = 0
 	
-    for _, vri in pairs(vrn.ingredients) do
-      --Flip Input fluids
-      sortcount = sortcount + 1
-      vri.sortorder = sortcount
-      if vri.type == "fluid" then
-        vri.sortorder = 1000 - sortcount
+      for _, vri in pairs(vrn.ingredients) do
+        --Flip Input fluids
+        sortcount = sortcount + 1
+        vri.sortorder = sortcount
+        if vri.type == "fluid" then
+          vri.sortorder = 1000 - sortcount
+        end
       end
-    end
 	
-	if vrn.normal and vrn.normal.ingredients then 
+	  if vrn.normal and vrn.normal.ingredients then 
 		sortcount = 0
 		for _, vri in pairs(vrn.normal.ingredients) do
 		  --Flip Input fluids
@@ -126,9 +127,9 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
 			vri.sortorder = 1000 - sortcount
 		  end
 		end
-	end
+	  end
 	
-	if vrn.expensive and vrn.expensive.ingredients then 
+	  if vrn.expensive and vrn.expensive.ingredients then 
 		sortcount = 0
 		for _, vri in pairs(vrn.expensive.ingredients) do
 		  --Flip Input fluids
@@ -138,95 +139,104 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
 			vri.sortorder = 1000 - sortcount
 		  end
 		end
-	end
+	  end
 	
-    table.sort(vrn.ingredients, function(a,b) return a.sortorder<b.sortorder end)
-    if vrn.normal and vrn.normal.ingredients then
-		  table.sort(vrn.normal.ingredients, function(a,b) return a.sortorder<b.sortorder end)
+      table.sort(vrn.ingredients, function(a,b) return a.sortorder<b.sortorder end)
+      if vrn.normal and vrn.normal.ingredients then
+		table.sort(vrn.normal.ingredients, function(a,b) return a.sortorder<b.sortorder end)
 	  end
 	  if vrn.expensive and vrn.expensive.ingredients then
-		  table.sort(vrn.expensive.ingredients, function(a,b) return a.sortorder<b.sortorder end)
+		table.sort(vrn.expensive.ingredients, function(a,b) return a.sortorder<b.sortorder end)
 	  end
 	
-    for _, vri in pairs(vrn.ingredients) do
-      --clear sortorder
-      vri.sortorder = nil
-    end
-	if vrn.normal and vrn.normal.ingredients then
+      for _, vri in pairs(vrn.ingredients) do
+        --clear sortorder
+        vri.sortorder = nil
+      end
+	  if vrn.normal and vrn.normal.ingredients then
 		for _, vri in pairs(vrn.normal.ingredients) do
 		  --clear sortorder
 		  vri.sortorder = nil
 		end
-	end
-	if vrn.expensive and vrn.expensive.ingredients then
+	  end
+	  if vrn.expensive and vrn.expensive.ingredients then
 		for _, vri in pairs(vrn.expensive.ingredients) do
 		  --clear sortorder
 		  vri.sortorder = nil
 		end
-	end
+	  end
   
-  end
+    end
     
-  if isOut then
-    sortcount = 0
-    for _, vrr in pairs(vrn.results) do
-      --Flip Output fluids
-      sortcount = sortcount + 1
-      vrr.sortorder = sortcount
-      if vrr.type == "fluid" then
-        vrr.sortorder = 1000 - sortcount
+    if isOut then
+      sortcount = 0
+
+      if vrn.results then -- check if there is actualy any outputs
+        for _, vrr in pairs(vrn.results) do
+		  --Flip Output fluids
+          sortcount = sortcount + 1
+          vrr.sortorder = sortcount
+          if vrr.type == "fluid" then
+            vrr.sortorder = 1000 - sortcount
+          end
+        end
+	  end
+	
+	  if vrn.normal and vrn.normal.results then 
+		sortcount = 0
+		for _, vrr in pairs(vrn.normal.results) do
+		  --Flip Output fluids
+		  sortcount = sortcount + 1
+		  vrr.sortorder = sortcount
+		  if vrr.type == "fluid" then
+			vrr.sortorder = 1000 - sortcount
+		  end
+		end
+	  end
+	
+	  if vrn.expensive and vrn.expensive.results then 
+		sortcount = 0
+		for _, vrr in pairs(vrn.expensive.results) do
+		  --Flip Output fluids
+		  sortcount = sortcount + 1
+		  vrr.sortorder = sortcount
+		  if vrr.type == "fluid" then
+			vrr.sortorder = 1000 - sortcount
+		  end
+		end
+	  end
+	
+	  if vrn.results then -- check if there is any results
+        table.sort(vrn.results, function(a,b) return a.sortorder<b.sortorder end)
       end
-    end
-	
-	if vrn.normal and vrn.normal.results then 
-		sortcount = 0
-		for _, vri in pairs(vrn.normal.results) do
-		  --Flip Output fluids
-		  sortcount = sortcount + 1
-		  vrr.sortorder = sortcount
-		  if vrr.type == "fluid" then
-			vrr.sortorder = 1000 - sortcount
-		  end
-		end
-	end
-	
-	if vrn.expensive and vrn.expensive.results then 
-		sortcount = 0
-		for _, vri in pairs(vrn.expensive.results) do
-		  --Flip Output fluids
-		  sortcount = sortcount + 1
-		  vrr.sortorder = sortcount
-		  if vrr.type == "fluid" then
-			vrr.sortorder = 1000 - sortcount
-		  end
-		end
-	end
-	
-    table.sort(vrn.results, function(a,b) return a.sortorder<b.sortorder end)
-    if vrn.normal and vrn.normal.results then
+      
+	  if vrn.normal and vrn.normal.results then
 	  	table.sort(vrn.normal.results, function(a,b) return a.sortorder<b.sortorder end)
-	end
-	if vrn.expensive and vrn.expensive.results then
+	  end
+	  if vrn.expensive and vrn.expensive.results then
 		table.sort(vrn.expensive.results, function(a,b) return a.sortorder<b.sortorder end)
-	end
+	  end
 	
-    for _, vrr in pairs(vrn.results) do
-      --clear sortorder
-      vrr.sortorder = nil
-    end
-	if vrn.normal and vrn.normal.results then
+	  if vrn.results then -- check if there is any results
+        for _, vrr in pairs(vrn.results) do
+          --clear sortorder
+          vrr.sortorder = nil
+        end
+      end
+		
+	  if vrn.normal and vrn.normal.results then
 		for _, vri in pairs(vrn.normal.results) do
 		  --clear sortorder
 		  vri.sortorder = nil
 		end
-	end
-	if vrn.expensive and vrn.expensive.results then
+	  end
+	  if vrn.expensive and vrn.expensive.results then
 		for _, vri in pairs(vrn.expensive.results) do
 		  --clear sortorder
 		  vri.sortorder = nil
 		end
-	end
-  end
+	  end
+    end
   
     newicons = {}
     --grab old icon(s)
