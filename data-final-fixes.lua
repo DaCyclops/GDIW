@@ -142,17 +142,28 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
 		  end
 		end
 	  end
-	
-	  if vrn.ingredients then
-        table.sort(vrn.ingredients, function(a,b) return a.sortorder<b.sortorder end)
-      end
-      if vrn.normal and vrn.normal.ingredients then
+
+	if vrn.ingredients then
+          table.sort(vrn.ingredients, 
+	  function(a,b) 
+		if not a then
+			return false
+		end
+
+		if not b then
+			return false
+		end				
+
+		return a.sortorder<b.sortorder 
+	  end)
+	end
+	if vrn.normal and vrn.normal.ingredients then
 		table.sort(vrn.normal.ingredients, function(a,b) return a.sortorder<b.sortorder end)
-	  end
-	  if vrn.expensive and vrn.expensive.ingredients then
+	end
+	if vrn.expensive and vrn.expensive.ingredients then
 		table.sort(vrn.expensive.ingredients, function(a,b) return a.sortorder<b.sortorder end)
 	  end
-	
+
 	  if vrn.ingredients then
         for _, vri in pairs(vrn.ingredients) do
           --clear sortorder
