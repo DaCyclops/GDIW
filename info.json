@@ -1,11 +1,22 @@
 {
   "name": "GDIW",
-  "version": "0.17.3",
+  "version": "0.17.4",
   "title": "GDIW - Gah! DarnItWater!",
   "author": "DaCyclops",
   "homepage": "",
   "contact": "dacyclops@dacyclops.com",
   "description": "Allows switching liquid recipe inputs and outputs.",
   "factorio_version":"0.17",
-  "dependencies": ["(?) angelspetrochem >= 0.0.0", "(?) angelsinfiniteores >= 0.0.0", "(?) bobelectronics >= 0.0.0", "(?) ShinyBob >= 0.0.0", "(?) ZGroupChange >= 0.0.0"]
+  "dependencies": [
+    "(?) angelspetrochem ",
+    "(?) angelsinfiniteores",
+    "(?) bobelectronics", 
+    "(?) ShinyBob", 
+    "(?) ZGroupChange",
+    "(?) pycoalprocessing",
+    "(?) pyfusionenergy",
+    "(?) pyhightech",
+    "(?) pyindustry",
+    "(?) pyrawores"
+  ]
 }
