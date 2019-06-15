@@ -1,3 +1,5 @@
+-- Read Debug Setting
+GDIWdebugon = settings.startup["GDIW-debug"].value
 
 
 GDIWworklistIn = {}
@@ -34,6 +36,8 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     ordersuffix = "-o4"
     end
     newName = vin.r .. "-" .. suffix
+    
+    if GDIWdebugon then log("[GDIW] Creating "..newName) end
     -- copy table
     data.raw.recipe[newName] = util.table.deepcopy(data.raw.recipe[vin.r])
     
@@ -75,7 +79,7 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
         vrn.localised_name = {"item-name." .. vro.main_product}
       end
     elseif vro.results then
-      if vro.results[1] then
+      if vro.results[1] and vro.results[1].name then
         vrn.localised_name = {vro.results[1].type .. "-name." .. vro.results[1].name}
       else
         --log("--GDIW-----------")
@@ -376,6 +380,9 @@ end
 
 
 -- Find what needs to be done
+GDIWfullcountIN = 0
+GDIWfullcountOUT = 0
+GDIWfullcountBOTH = 0
 for kr, vr in pairs(data.raw.recipe) do
   --For each recipe
   GDIWfincountD = 0 --"Default, normal, expensive"
@@ -460,19 +467,27 @@ for kr, vr in pairs(data.raw.recipe) do
   if GDIWfincount > 1 then
     --of Input flipping
     table.insert(GDIWworklistIn,{r=kr, prod=thisProduc})
+    GDIWfullcountIN = GDIWfullcountIN + 1
   end
   if GDIWfoutcount > 1 then
     --of Output flipping
     table.insert(GDIWworklistOut,{r=kr, prod=thisProduc})
+    GDIWfullcountOUT = GDIWfullcountOUT + 1
   end
   if GDIWfincount > 1 and GDIWfoutcount > 1 then
     --of Input and Output flipping
     table.insert(GDIWworklistBoth,{r=kr, prod=thisProduc})
+    GDIWfullcountBOTH = GDIWfullcountBOTH + 1
   end
   
 end
 
 
+if GDIWdebugon then 
+  GDIWfullcountTOTAL = GDIWfullcountIN + GDIWfullcountOUT + GDIWfullcountBOTH
+  log("[GDIW] Queued "..GDIWfullcountTOTAL.." recipes for GDIW processing") 
+  log("[GDIW] (IN:"..GDIWfullcountIN.."  OUT:"..GDIWfullcountOUT.."  BOTH:"..GDIWfullcountBOTH..")") 
+end
 
 -- Add all prototypes via function
 -- GDIWdoprototype(GDIWwl, isIn, isOut )

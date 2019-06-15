@@ -1,6 +1,6 @@
 {
   "name": "GDIW",
-  "version": "0.17.4",
+  "version": "0.17.5",
   "title": "GDIW - Gah! DarnItWater!",
   "author": "DaCyclops",
   "homepage": "",
@@ -9,6 +9,8 @@
   "factorio_version":"0.17",
   "dependencies": [
     "(?) angelspetrochem ",
+    "(?) angelssmelting ",
+    "(?) angelsindustries ",
     "(?) angelsinfiniteores",
     "(?) bobelectronics", 
     "(?) ShinyBob", 
