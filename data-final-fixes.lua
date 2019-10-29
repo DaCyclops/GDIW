@@ -79,7 +79,7 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
         vrn.localised_name = {"item-name." .. vro.main_product}
       end
     elseif vro.results then
-      if vro.results[1] and vro.results[1].name then
+      if vro.results[1] and vro.results[1].name and vro.results[1].type then
         vrn.localised_name = {vro.results[1].type .. "-name." .. vro.results[1].name}
       else
         --log("--GDIW-----------")
