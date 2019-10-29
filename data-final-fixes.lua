@@ -95,7 +95,14 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     "advanced-oil-processing",
     "light-oil-cracking",
     "heavy-oil-cracking",
-    "coal-liquefaction"
+    "coal-liquefaction",
+    -- Krastorio Recipe overrides, because Krastorio also does not like us...
+    "k-stone-processing",
+    "k-air-separation",
+    "pure-water-electrolysis",
+    "raw-ores-processing",
+    "raw-minerals-processing",
+    "salt-water-electrolysis",
     }
     for _, nov in pairs(nameoverrides) do
       if vro.name == nov then
