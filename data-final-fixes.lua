@@ -79,7 +79,7 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
         vrn.localised_name = {"item-name." .. vro.main_product}
       end
     elseif vro.results then
-      if vro.results[1] and vro.results[1].name then
+      if vro.results[1] and vro.results[1].name and vro.results[1].type then
         vrn.localised_name = {vro.results[1].type .. "-name." .. vro.results[1].name}
       else
         --log("--GDIW-----------")
@@ -95,7 +95,14 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     "advanced-oil-processing",
     "light-oil-cracking",
     "heavy-oil-cracking",
-    "coal-liquefaction"
+    "coal-liquefaction",
+    -- Krastorio Recipe overrides, because Krastorio also does not like us...
+    "k-stone-processing",
+    "k-air-separation",
+    "pure-water-electrolysis",
+    "raw-ores-processing",
+    "raw-minerals-processing",
+    "salt-water-electrolysis",
     }
     for _, nov in pairs(nameoverrides) do
       if vro.name == nov then
