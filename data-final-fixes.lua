@@ -250,12 +250,18 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
       end
     end
   
-    newicons = {}
+    newIcons = {}
     --grab old icon(s)
     if vro.icon then
-      table.insert(newicons,{icon=vro.icon})
+      if vro.icon_size then
+        vroIS = vro.icon_size
+      else
+        -- Assume 64 if its blank.
+        vroIS  = 64
+      end
+      table.insert(newIcons,{icon=vro.icon,icon_size=vroIS})
     elseif vro.icons then
-      newicons = util.table.deepcopy(vro.icons)
+      newIcons = util.table.deepcopy(vro.icons)
     else
       -- Look through results for an icon
       local resultList = {}
@@ -290,31 +296,37 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
         if data.raw[result.type] and data.raw[result.type][result.name] then
           local rawResult = data.raw[result.type][result.name] 
           if rawResult.icon then
-            table.insert(newicons,{icon=rawResult.icon})
+            if rawResult.icon_size then
+              rawResIS = rawResult.icon_size
+            else
+              -- Assume 64 if its blank.
+              rawResIS = 64
+            end
+            table.insert(newIcons,{icon=rawResult.icon, icon_size=rawResIS})
           elseif rawResult.icons then
-            newicons = util.table.deepcopy(rawResult.icons)
+            newIcons = util.table.deepcopy(rawResult.icons)
           end
-          if #newicons > 0 then break end
+          if #newIcons > 0 then break end
         end
       end
     end
 
-    if #newicons == 0 then
-      table.insert(newicons,{icon="__GDIW__/graphics/placeholder.png"})
+      if #newIcons == 0 then
+      table.insert(newIcons,{icon="__GDIW__/graphics/placeholder.png",icon_size = 32})
     end
     -- add overlay and use
     if isIn and isOut then
-      table.insert(newicons,{icon = "__GDIW__/graphics/reverse-overlay-both.png"})
+      table.insert(newIcons,{icon = "__GDIW__/graphics/reverse-overlay-both.png",icon_size = 32})
     elseif isIn then
-      table.insert(newicons,{icon = "__GDIW__/graphics/reverse-overlay-input.png"})
+      table.insert(newIcons,{icon = "__GDIW__/graphics/reverse-overlay-input.png",icon_size = 32})
     elseif isOut then
-      table.insert(newicons,{icon = "__GDIW__/graphics/reverse-overlay-output.png"})
+      table.insert(newIcons,{icon = "__GDIW__/graphics/reverse-overlay-output.png",icon_size = 32})
     else
-      table.insert(newicons,{icon = "__GDIW__/graphics/reverse-overlay-both.png"})
+      table.insert(newIcons,{icon = "__GDIW__/graphics/reverse-overlay-both.png",icon_size = 32})
     end
     
-    vrn.icons = newicons
-    vrn.icon_size = 32
+    vrn.icons = newIcons
+
     
     -- handle productivity modules
     if vin.prod then
