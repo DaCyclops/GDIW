@@ -91,4 +91,94 @@ end)
 -- End OnLoad/OnInit/OnConfig events
 
 
+function doGDIWRotate(ent, pl)
+  --Function for triggering rotation of recipe.
+  -- thank you GDIWHotkey mod
+  curRec = ent.get_recipe()
+  if curRec ~= nil then
+    --doing
+    if (string.find(curRec.name, "GDIW") == nil) then
+			nextRec = curRec.name .. "-GDIW-OR"
+			if ent.force.recipes[nextRec] then
+				ent.set_recipe(nextRec)
+			else
+				nextRec = curRec.name .. "-GDIW-IR"
+				if ent.force.recipes[nextRec] then
+					ent.set_recipe(nextRec)
+				else
+					nextRec = curRec.name .. "-GDIW-BR"
+					if ent.force.recipes[nextRec] then
+						ent.set_recipe(nextRec)
+					else
+						nextRec = curRec.name .. "-GDIW-AR"
+						if ent.force.recipes[nextRec] then
+							ent.set_recipe(nextRec)
+						else
+							ent.set_recipe(curRec)
+						end
+					end
+				end
+			end
+		elseif (string.find(curRec.name, "GDIW%-OR") ~= nil) then
+			baseRec = string.gsub(curRec.name, "%-GDIW%-OR", "")
+			nextRec = baseRec .. "-GDIW-IR"
+			if ent.force.recipes[nextRec] then
+				ent.set_recipe(nextRec)
+			else
+				nextRec = baseRec .. "-GDIW-BR"
+				if ent.force.recipes[nextRec] then
+					ent.set_recipe(nextRec)
+				else
+					nextRec = baseRec .. "-GDIW-AR"
+					if ent.force.recipes[nextRec] then
+						ent.set_recipe(nextRec)
+					else
+						ent.set_recipe(baseRec)
+					end
+				end
+			end
+		elseif (string.find(curRec.name, "GDIW%-IR") ~= nil) then
+			baseRec = string.gsub(curRec.name, "%-GDIW%-IR", "")
+			nextRec = baseRec .. "-GDIW-BR"
+			if ent.force.recipes[nextRec] then
+				ent.set_recipe(nextRec)
+			else
+				nextRec = baseRec .. "-GDIW-AR"
+				if ent.force.recipes[nextRec] then
+					ent.set_recipe(nextRec)
+				else
+					ent.set_recipe(baseRec)
+				end
+			end
+		
+		elseif (string.find(curRec.name, "GDIW%-BR") ~= nil) then
+			baseRec = string.gsub(curRec.name, "%-GDIW%-BR", "")
+			nextRec = baseRec .. "-GDIW-AR"
+			if ent.force.recipes[nextRec] then
+				ent.set_recipe(nextRec)
+			else
+				ent.set_recipe(baseRec)
+			end
+		else
+			return
+		end
+	else
+		return
+	end
+
+
+end
+
+-- thank you GDIWHotkey mod
+--When Hotkey is pressed...
+script.on_event("GDIW-Rotate", function(event)
+	--...check if player has a suitable machine selected and if they do...
+	local pl = game.players[event.player_index]
+	local ent = pl.selected
+	if ent and ent.type == "assembling-machine" and pl.can_reach_entity(ent) and ent.get_recipe ~= nil then
+		--...cycle to next recipe version.
+		doGDIWRotate(ent, pl)
+	end
+end)
+
 

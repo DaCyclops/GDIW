@@ -1,12 +1,28 @@
+data:extend({
+
+    
+-- Hide Recipes, for use with Hotkey
+	{
+        type = "bool-setting",
+        name = "GDIW-hide-recipes",
+        setting_type = "startup",
+        default_value = false,
+        order = "GDIW-a"
+    },
 
 -- global Debug flag
 -- Debug mode, for logging
-data:extend({
-    {
-        type = "bool-setting",
-        name = "GDIW-debug",
-        setting_type = "startup",
-        default_value = false
-    }
+{
+    type = "bool-setting",
+    name = "GDIW-debug",
+    setting_type = "startup",
+    default_value = false,
+    order = "GDIW-zzzz"
+
+
+}
+
 })
+
+
 

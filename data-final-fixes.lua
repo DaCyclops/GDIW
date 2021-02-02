@@ -64,6 +64,11 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
       end
     end
     
+    -- Hide if Startup Setting Set
+    if settings.startup["GDIW-hide-recipes"].value == true then
+      vrn.hidden = true
+    end
+
     -- calculate localised name
     if vro.localised_name then
       vrn.localised_name = util.table.deepcopy(vro.localised_name)
@@ -79,8 +84,12 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
         vrn.localised_name = {"item-name." .. vro.main_product}
       end
     elseif vro.results then
-      if vro.results[1] and vro.results[1].name and vro.results[1].type then
-        vrn.localised_name = {vro.results[1].type .. "-name." .. vro.results[1].name}
+      if vro.results[1] and vro.results[1].name then
+        if vro.results[1].type then
+          vrn.localised_name = {vro.results[1].type .. "-name." .. vro.results[1].name}
+        else 
+          vrn.localised_name = {gdiw_get_result_type(vro.results[1].name) .. "-name." .. vro.results[1].name}
+        end
       else
         --log("--GDIW-----------")
         --log("failure on R:" .. vro.name .. " ")
@@ -272,17 +281,21 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     else
       -- Look through results for an icon
       local resultList = {}
-      if vrn.results then -- Do we have a list of results?
-        for _,v in ipairs(vrn.results) do 
+      -- support for main_product
+      if vrn.main_product then
+        table.insert(resultList, {type=gdiw_get_result_type(vrn.main_product), name=vrn.main_product})
+      end
+      if vro.results then -- Do we have a list of results?
+        for _,v in ipairs(vro.results) do 
           table.insert(resultList, v)
         end
       end
-      if vrn.normal and vrn.normal.results then -- Do we have a list of normal results?
-        for _,v in ipairs(vrn.normal.results) do 
+      if vro.normal and vro.normal.results then -- Do we have a list of normal results?
+        for _,v in ipairs(vro.normal.results) do 
           table.insert(resultList, v)
         end
       end
-      if vrn.expensive and vrn.expensive.results then -- Do we have a list of expensive results?
+      if vro.expensive and vro.expensive.results then -- Do we have a list of expensive results?
         for _,v in ipairs(vrn.expensive.results) do 
           table.insert(resultList, v)
         end
@@ -345,6 +358,8 @@ function GDIWdoprototype(GDIWwl, isIn, isOut )
     end
   
   table.insert(GDIWresearch[vin.r], newName)
+
+
 
     if isIn and isOut then
       table.insert(GDIWlist.lboth, {name=newName, orig=vin.r})

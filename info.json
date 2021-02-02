@@ -1,12 +1,12 @@
 {
   "name": "GDIW",
-  "version": "0.18.0",
+  "version": "1.1.0",
   "title": "GDIW - Gah! DarnItWater!",
   "author": "DaCyclops",
   "homepage": "",
   "contact": "dacyclops@dacyclops.com",
   "description": "Allows switching liquid recipe inputs and outputs.",
-  "factorio_version":"0.18",
+  "factorio_version":"1.1",
   "dependencies": [
     "(?) angelspetrochem ",
     "(?) angelssmelting ",
